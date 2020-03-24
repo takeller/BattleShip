@@ -23,6 +23,10 @@ class CellTest < Minitest::Test
     assert_nil @cell.ship
   end
 
+  def test_not_fired_upon_by_default
+    assert_equal false, @cell.fired_upon
+  end
+
   def test_place_ship
     assert_nil @cell.ship
 
@@ -38,4 +42,16 @@ class CellTest < Minitest::Test
 
     assert_equal false, @cell.empty?
   end
+
+  def test_fire_upon
+    assert_equal false, @cell.fired_upon
+    assert_equal 3, @cruiser.health
+
+    @cell.place_ship(@cruiser)
+    @cell.fire_upon
+
+    assert_equal true, @cell.fired_upon
+    assert_equal 2, @cruiser.health
+  end
+
 end
