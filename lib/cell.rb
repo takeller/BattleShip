@@ -22,11 +22,9 @@ class Cell
 
   def fire_upon
     return "Cell has already been fired upon" if fired_upon?
-    if
-      @fired_upon = true
-      unless empty?
-        @ship.hit
-      end
+    @fired_upon = true
+    unless empty?
+      @ship.hit
     end
   end
 
