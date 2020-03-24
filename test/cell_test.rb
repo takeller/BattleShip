@@ -80,8 +80,9 @@ class CellTest < Minitest::Test
     assert_equal false, @cell.fired_upon?
 
     @cell.place_ship(@cruiser)
-    3.times do
-      @cell.fire_upon
+    @cell.fire_upon
+    2.times do
+      @cruiser.hit
     end
 
     assert_equal "X", @cell.render

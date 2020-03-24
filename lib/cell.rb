@@ -20,11 +20,13 @@ class Cell
     @ship = ship
   end
 
-# We shouldn't be able to fire upon the same cell twice
   def fire_upon
-    @fired_upon = true
-    unless empty?
-      @ship.hit
+    return "Cell has already been fired upon" if fired_upon?
+    if
+      @fired_upon = true
+      unless empty?
+        @ship.hit
+      end
     end
   end
 
