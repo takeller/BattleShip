@@ -22,4 +22,20 @@ class CellTest < Minitest::Test
   def test_ship_empty_cell
     assert_nil @cell.ship
   end
+
+  def test_place_ship
+    assert_nil @cell.ship
+
+    @cell.place_ship(@cruiser)
+
+    assert_equal @cruiser, @cell.ship
+  end
+
+  def test_empty?
+    assert_equal true, @cell.empty?
+
+    @cell.place_ship(@cruiser)
+
+    assert_equal false, @cell.empty?
+  end
 end
