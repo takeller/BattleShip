@@ -24,7 +24,7 @@ class CellTest < Minitest::Test
   end
 
   def test_not_fired_upon_by_default
-    assert_equal false, @cell.fired_upon
+    assert_equal false, @cell.fired_upon?
   end
 
   def test_place_ship
@@ -44,14 +44,55 @@ class CellTest < Minitest::Test
   end
 
   def test_fire_upon
-    assert_equal false, @cell.fired_upon
+    assert_equal false, @cell.fired_upon?
     assert_equal 3, @cruiser.health
 
     @cell.place_ship(@cruiser)
     @cell.fire_upon
 
-    assert_equal true, @cell.fired_upon
+    assert_equal true, @cell.fired_upon?
     assert_equal 2, @cruiser.health
+  end
+
+  def test_render_not_fired_upon
+    assert_equal false, @cell.fired_upon?
+    assert_equal ".", @cell.render
+  end
+
+  def test_render_miss
+    assert_equal false, @cell.fired_upon?
+
+    @cell.fire_upon
+
+    assert_equal "M", @cell.render
+  end
+
+  def test_render_hit
+    assert_equal false, @cell.fired_upon?
+
+    @cell.place_ship(@cruiser)
+    @cell.fire_upon
+
+    assert_equal "H", @cell.render
+  end
+
+  def test_render_sunk
+    assert_equal false, @cell.fired_upon?
+
+    @cell.place_ship(@cruiser)
+    3.times do
+      @cell.fire_upon
+    end
+
+    assert_equal "X", @cell.render
+  end
+
+  def test_render_show_ship_true
+    assert_equal false, @cell.fired_upon?
+
+    @cell.place_ship(@cruiser)
+
+    assert_equal "S", @cell.render(true)
   end
 
 end
