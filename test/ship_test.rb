@@ -24,4 +24,20 @@ class ShipTest < Minitest::Test
   def test_by_default_health_equals_length
     assert_equal 3, @cruiser.health
   end
+
+  def test_it_is_not_sunk_by_default
+    assert_equal false, @cruiser.sunk?
+  end
+
+  def test_hit
+    assert_equal 3, @cruiser.health
+
+    @cruiser.hit
+
+    assert_equal 2, @cruiser.health
+
+    @cruiser.hit
+    
+    assert_equal 1, @cruiser.health
+  end
 end
