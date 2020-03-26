@@ -64,9 +64,7 @@ class Board
     true
   end
 
-  def render
-
+  def ships_overlapping?(coordinates)
+    coordinates.map {|coordinate| @board_cells[coordinate].empty?}.any?(false)
   end
-
-
 end
