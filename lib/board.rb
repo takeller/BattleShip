@@ -1,25 +1,21 @@
 class Board
 
-  attr_reader :board_cells
+  attr_reader :cells
   def initialize
-    @board_cells = {}
+    @cells = make_cells
   end
 
-  def cells
-    letters_array = [*"A".."D"]
-    numbers_array = [*"1".."4"]
-
-    letters_array.each do |letter|
-      numbers_array.each do |num|
-        coordinate = letter + num
-        @board_cells[coordinate] = Cell.new(coordinate)
-      end
+  def make_cells
+    grid = make_grid
+    board_cells = {}
+    grid.each do |coordinate|
+      board_cells[coordinate] = Cell.new(coordinate)
     end
     board_cells
   end
 
   def valid_coordinate?(coordinate)
-    @board_cells.has_key?(coordinate)
+    @cells.has_key?(coordinate)
   end
 
   def valid_placement?(ship, coordinates)
@@ -64,8 +60,31 @@ class Board
     true
   end
 
-  def render
+  # Generalize to make size flexible
+  def make_grid
+    letters = [*"A".."D"]
+    numbers = [*"1".."4"]
+    grid = []
+    letters.each do |letter|
+      numbers.each do |num|
+        grid << letter + num
+      end
+    end
+    grid
+  end
 
+  # Generalize to handle flexible size
+  def render
+    size = 4
+    grid = make_grid
+    grid_of_cells = grid.map { |coordinate| @cells[coordinate]  }
+    puts grid_of_cells
+    row2 = grid_of_cells[0..3].map { |cell| cell.render}
+    row3 = grid_of_cells[4..7].map { |cell| cell.render}
+    row4 = grid_of_cells[8..11].map { |cell| cell.render}
+    row5 = grid_of_cells[12..15].map { |cell| cell.render}
+
+    puts "   1 2 3 4 \n"  + " A #{row2.join(" ")}\n" + " B #{row3.join(" ")}\n" + " C #{row4.join(" ")}\n" + " D #{row5.join(" ")} \n"
   end
 
 
