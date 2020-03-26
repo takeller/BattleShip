@@ -41,6 +41,7 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.consecutive_coordinates?(["A2","A1"])
     assert_equal true, @board.consecutive_coordinates?(["A1","B1"])
     assert_equal true, @board.consecutive_coordinates?(["A1","B1", "C1", "D1"])
+    assert_equal true, @board.consecutive_coordinates?(["Z1","Z2", "Z3", "Z4"])
     assert_equal false, @board.consecutive_coordinates?(["B1","A1", "C1", "A1"])
   end
 

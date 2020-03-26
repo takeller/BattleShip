@@ -20,6 +20,7 @@ class Board
 
   def valid_placement?(ship, coordinates)
     return false if (coordinates.length != ship.length) or (consecutive_coordinates?(coordinates) == false)
+    # Rename to diagonal_coordinates
     return false if (non_diagonal_coordinates?(coordinates) == false)
     coordinates.each do |coordinate|
       return false if valid_coordinate?(coordinate) == false
