@@ -11,10 +11,21 @@ class BoardTest < Minitest::Test
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
+
   def test_it_exists
     assert_instance_of Board, @board
   end
-  def test_cells
+
+  def test_it_has_cells_as_an_attribute
+    assert_instance_of Hash, @board.cells
+  end
+
+  def test_make_grid
+    grid = ["A1","A2","A3","A4","B1","B2","B3","B4","C1","C2","C3","C4","D1","D2","D3","D4"]
+    assert_equal grid, @board.make_grid
+  end
+
+  def test_make_cells
     assert_equal 16, @board.cells.length
     @board.cells.each do |key, value|
       assert_instance_of Cell, value
@@ -39,12 +50,11 @@ class BoardTest < Minitest::Test
     assert_equal true, @board.consecutive_coordinates?(["Z1","Z2", "Z3", "Z4"])
     assert_equal false, @board.consecutive_coordinates?(["B1","A1", "C1", "A1"])
   end
-  def test_non_diagonal_coordinates?
-    assert_equal true, @board.non_diagonal_coordinates?(["A1","A2","A3"])
-    assert_equal true, @board.non_diagonal_coordinates?(["A1","B1","C1"])
-    assert_equal false, @board.non_diagonal_coordinates?(["A1","B2","C3"])
-    assert_equal false, @board.non_diagonal_coordinates?(["A4","B2","C3"])
-    assert_equal false, @board.non_diagonal_coordinates?(["A4","C1"])
+
+  def test_diagonal_coordinates?
+    assert_equal false, @board.diagonal_coordinates?(["A1","A2","A3"])
+    assert_equal false, @board.diagonal_coordinates?(["A1","B1","C1"])
+    assert_equal true, @board.diagonal_coordinates?(["A1","B2","C3"])
   end
 
   def test_valid_placement_ship_length
@@ -52,6 +62,7 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "A2", "A3"])
   end
+
   def test_valid_placement_consecutive_coordinates
 
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
@@ -61,8 +72,8 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@submarine, ["C1", "B1"])
     assert_equal true, @board.valid_placement?(@submarine, ["B1", "C1"])
   end
-  #
-  def test_valid_placement_non_diagonal_coordinates
+
+  def test_valid_placement_diagonal_coordinates
 
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
     assert_equal false, @board.valid_placement?(@submarine, ["C2", "D3"])
@@ -96,5 +107,30 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
 
     assert_equal "Invalid Placement", @board.place(cruiser, ["A1", "A2", "C1"])
+  end
+
+  def test_render_dont_show_ships
+    expected = (
+    "  1 2 3 4 \n" +
+    "A . . . . \n" +
+    "B . . . . \n" +
+    "C . . . . \n" +
+    "D . . . . \n"
+    )
+    assert_equal expected, @board.render
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    assert_equal expected, @board.render
+  end
+
+  def test_render_show_ships
+    expected = (
+    "  1 2 3 4 \n" +
+    "A S S S . \n" +
+    "B . . . . \n" +
+    "C . . . . \n" +
+    "D . . . . \n"
+    )
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    assert_equal expected, @board.render(true)
   end
 end
