@@ -25,6 +25,7 @@ class Board
     coordinates.each do |coordinate|
       return false if valid_coordinate?(coordinate) == false
     end
+    return false if ships_overlapping?(coordinates)
     true
   end
 
@@ -88,5 +89,15 @@ class Board
     puts "   1 2 3 4 \n"  + " A #{row2.join(" ")}\n" + " B #{row3.join(" ")}\n" + " C #{row4.join(" ")}\n" + " D #{row5.join(" ")} \n"
   end
 
+  def ships_overlapping?(coordinates)
+  coordinates.map {|coordinate|  @cells[coordinate].empty?}.any?(false)
+  end
 
+
+  def place(ship, coordinates)
+    return "Invalid Placement" unless valid_placement?(ship, coordinates)
+    coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
+  end
 end
