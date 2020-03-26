@@ -28,6 +28,7 @@ class Board
     coordinates.each do |coordinate|
       return false if valid_coordinate?(coordinate) == false
     end
+    return false if ships_overlapping?(coordinates)
     true
   end
 
@@ -66,5 +67,13 @@ class Board
 
   def ships_overlapping?(coordinates)
     coordinates.map {|coordinate| @board_cells[coordinate].empty?}.any?(false)
+  end
+
+
+  def place(ship, coordinates)
+    return "Invalid Placement" unless valid_placement?(ship, coordinates)
+    coordinates.each do |coordinate|
+      @board_cells[coordinate].place_ship(ship)
+    end
   end
 end
