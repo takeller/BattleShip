@@ -1,30 +1,27 @@
 class Board
 
-  attr_reader :board_cells
+  attr_reader :cells
   def initialize
-    @board_cells = {}
+    @cells = make_cells
   end
 
-  def cells
-    letters_array = [*"A".."D"]
-    numbers_array = [*"1".."4"]
-
-    letters_array.each do |letter|
-      numbers_array.each do |num|
-        coordinate = letter + num
-        @board_cells[coordinate] = Cell.new(coordinate)
-      end
+  def make_cells
+    grid = make_grid
+    board_cells = {}
+    grid.each do |coordinate|
+      board_cells[coordinate] = Cell.new(coordinate)
     end
     board_cells
   end
 
   def valid_coordinate?(coordinate)
-    @board_cells.has_key?(coordinate)
+    @cells.has_key?(coordinate)
   end
 
   def valid_placement?(ship, coordinates)
     return false if (coordinates.length != ship.length) or (consecutive_coordinates?(coordinates) == false)
-    return false if (non_diagonal_coordinates?(coordinates) == false)
+    # Rename to diagonal_coordinates
+    return false if (diagonal_coordinates?(coordinates) == true)
     coordinates.each do |coordinate|
       return false if valid_coordinate?(coordinate) == false
     end
@@ -51,7 +48,7 @@ class Board
   end
 
 
-  def non_diagonal_coordinates?(coordinates)
+  def diagonal_coordinates?(coordinates)
     check_diagonal_ords = []
 
     coordinates.each_cons(2) do |pair|
@@ -61,19 +58,60 @@ class Board
       check_diagonal_ords << letter_ord_difference + number_ord_difference
     end
 
-    return false if check_diagonal_ords.any? { |ord_diff_total| ord_diff_total > 1}
-    true
+    return true if check_diagonal_ords.any? { |ord_diff_total| ord_diff_total > 1}
+    false
+  end
+
+  # Generalize to make size flexible
+  def make_grid
+    letters = [*"A".."D"]
+    numbers = [*"1".."4"]
+    grid = []
+    letters.each do |letter|
+      numbers.each do |num|
+        grid << letter + num
+      end
+    end
+    grid
+  end
+
+  # Generalize to handle flexible size
+  def render(show_ship = false)
+    if show_ship == false
+      size = 4
+      grid = make_grid
+      grid_of_cells = grid.map { |coordinate| @cells[coordinate]  }
+
+      row2 = grid_of_cells[0..3].map { |cell| cell.render}
+      row3 = grid_of_cells[4..7].map { |cell| cell.render}
+      row4 = grid_of_cells[8..11].map { |cell| cell.render}
+      row5 = grid_of_cells[12..15].map { |cell| cell.render}
+      rendered_board =  ("  1 2 3 4 \n"  + "A #{row2.join(" ")} \n" + "B #{row3.join(" ")} \n" + "C #{row4.join(" ")} \n" + "D #{row5.join(" ")} \n")
+    elsif show_ship == true
+      size = 4
+      grid = make_grid
+      grid_of_cells = grid.map { |coordinate| @cells[coordinate]  }
+
+      row2 = grid_of_cells[0..3].map { |cell| cell.render(true)}
+      row3 = grid_of_cells[4..7].map { |cell| cell.render(true)}
+      row4 = grid_of_cells[8..11].map { |cell| cell.render(true)}
+      row5 = grid_of_cells[12..15].map { |cell| cell.render(true)}
+
+      rendered_board =  ("  1 2 3 4 \n"  + "A #{row2.join(" ")} \n" + "B #{row3.join(" ")} \n" + "C #{row4.join(" ")} \n" + "D #{row5.join(" ")} \n")
+    end
+    # puts rendered_board
+    rendered_board
   end
 
   def ships_overlapping?(coordinates)
-    coordinates.map {|coordinate| @board_cells[coordinate].empty?}.any?(false)
+  coordinates.map {|coordinate|  @cells[coordinate].empty?}.any?(false)
   end
 
 
   def place(ship, coordinates)
     return "Invalid Placement" unless valid_placement?(ship, coordinates)
     coordinates.each do |coordinate|
-      @board_cells[coordinate].place_ship(ship)
+      @cells[coordinate].place_ship(ship)
     end
   end
 end
