@@ -1,11 +1,4 @@
 class GameSetup
-  def initialize
-    @board = Board.new
-    @player_cruiser = Ship.new("Cruiser", 3)
-    @computer_cruiser = Ship.new("Cruiser", 3)
-    @player_submarine = Ship.new("Submarine", 2)
-    @computer_submarine = Ship.new("Submarine", 2)
-  end
 
   def main_menu
     p "Welcome to BATTLESHIP"
@@ -22,8 +15,17 @@ class GameSetup
     exit! if main_menu == "q"
   end
 
-  def setup
-
+  def computer_ship_placement(ship)
+    coordinate_indexes = ship.length - 1
+    placement_coordinates = []
+    until @computer_board.valid_placement?(ship, placement_coordinates)
+      placement_coordinates = @computer_board.cells.keys.shuffle[0..coordinate_indexes]
+    end
+    placement_coordinates
   end
-
 end
+# require './lib/ship'
+# require './lib/cell'
+# require './lib/board'
+# game = GameSetup.new
+# p game.computer_ship_placement(Ship.new("Sub", 2))
