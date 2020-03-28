@@ -158,7 +158,6 @@ class BoardTest < Minitest::Test
     assert_equal true, @board.same_plane?(["A1", "A2", "A3"])
     assert_equal false, @board.same_plane?(["A1", "A2", "B2"])
     assert_equal false, @board.same_plane?(["A1", "B1", "B2"])
-
   end
 
 end
