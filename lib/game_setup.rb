@@ -1,4 +1,4 @@
-class GameSetup
+cd B  class GameSetup
 
   def main_menu
     p "Welcome to BATTLESHIP"
@@ -24,8 +24,3 @@ class GameSetup
     placement_coordinates
   end
 end
-# require './lib/ship'
-# require './lib/cell'
-# require './lib/board'
-# game = GameSetup.new
-# p game.computer_ship_placement(Ship.new("Sub", 2))
