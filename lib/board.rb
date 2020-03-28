@@ -35,7 +35,7 @@ class Board
   end
 
   def numbers_same?(coordinates)
-    nums = coordinates.map{|coordinate| coordinate[1]}
+    nums = coordinates.map{|coordinate| coordinate[1..-1]}
     nums.uniq.length == 1
   end
 

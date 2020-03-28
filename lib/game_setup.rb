@@ -1,4 +1,4 @@
-class GameSetup
+cd B  class GameSetup
 
   def main_menu
     p "Welcome to BATTLESHIP"
@@ -98,8 +98,3 @@ class GameSetup
     human_player.board.cells[get_computer_shot].fire_upon
   end
 end
-# require './lib/ship'
-# require './lib/cell'
-# require './lib/board'
-# game = GameSetup.new
-# p game.computer_ship_placement(Ship.new("Sub", 2))
