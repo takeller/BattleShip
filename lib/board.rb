@@ -29,8 +29,22 @@ class Board
     true
   end
 
-  def consecutive_coordinates?(coordinates)
+  def letters_same?(coordinates)
+    letters = coordinates.map{|coordinate| coordinate[0]}
+    letters.uniq.length == 1
+  end
 
+  def numbers_same?(coordinates)
+    nums = coordinates.map{|coordinate| coordinate[1]}
+    nums.uniq.length == 1
+  end
+
+  def same_plane?(coordinates)
+    numbers_same?(coordinates) || letters_same?(coordinates)
+  end
+
+  def consecutive_coordinates?(coordinates)
+    return false if same_plane?(coordinates) == false
     boolean_array = []
     coordinates.each_cons(2) do |pair|
       return false if pair[0] == pair[1]
