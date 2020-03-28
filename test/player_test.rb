@@ -30,7 +30,17 @@ class PlayerTest < Minitest::Test
 
     2.times {@kyle.ships[:submarine].hit}
     3.times {@kyle.ships[:cruiser].hit}
-    
+
     assert_equal true, @kyle.has_lost?
   end
+
+  def test_it_can_generate_computer_ship_placements
+    @kyle.computer_ship_coordinates(@kyle.ships[:cruiser])
+    p @kyle.ships[:cruiser]
+
+    assert_equal 3, @kyle.ships[:cruiser].length
+    assert_equal true, @kyle.board.valid_placement?(@kyle.ships[:cruiser],
+                       @kyle.computer_ship_coordinates(@kyle.ships[:cruiser]))
+  end
+
 end
