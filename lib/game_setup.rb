@@ -1,4 +1,8 @@
-cd B  class GameSetup
+class GameSetup
+
+  # attr_reader :human_player, :computer_player
+  #
+  # def initialize
 
   def main_menu
     p "Welcome to BATTLESHIP"
@@ -18,7 +22,7 @@ cd B  class GameSetup
   end
 
   # Where do these instance variables come from?
-  def computer_ship_placement(ship)
+  def computer_ship_coordinates(ship)
     coordinate_indexes = ship.length - 1
     placement_coordinates = []
     until @computer_board.valid_placement?(ship, placement_coordinates)
@@ -46,7 +50,7 @@ cd B  class GameSetup
   end
 
   def make_players
-
+    player = Player.new()
   end
 
   def player_ship_placement
