@@ -78,6 +78,8 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
     assert_equal false, @board.valid_placement?(@submarine, ["C2", "D3"])
     assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A4", "A5"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["C2", "D2", "D3"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "B2"])
   end
 
   def test_it_can_tell_if_ships_overlap
@@ -133,4 +135,29 @@ class BoardTest < Minitest::Test
     @board.place(@cruiser, ["A1", "A2", "A3"])
     assert_equal expected, @board.render(true)
   end
+
+  def test_it_can_tell_all_letters_are_the_same
+    assert_equal true, @board.letters_same?(["A1", "A2", "A3"])
+    assert_equal true, @board.letters_same?(["B1", "B2", "B3"])
+    assert_equal true, @board.letters_same?(["Z1", "Z2", "Z3"])
+    assert_equal false, @board.letters_same?(["A1", "B1", "C1"])
+  end
+
+  def test_it_can_tell_all_numbers_are_the_same
+    assert_equal true, @board.numbers_same?(["A1", "B1", "C1"])
+    assert_equal true, @board.numbers_same?(["A2", "B2", "C2"])
+    assert_equal true, @board.numbers_same?(["X33", "Y33", "Z33"])
+    assert_equal false, @board.numbers_same?(["X34", "Y33", "Z33"])
+    assert_equal false, @board.numbers_same?(["A1", "A2", "A3"])
+  end
+
+  def test_it_can_tell_coordinates_are_in_the_same_plane
+    assert_equal true, @board.same_plane?(["A1", "B1", "C1"])
+    assert_equal true, @board.same_plane?(["X3", "Y3", "Z3"])
+    assert_equal true, @board.same_plane?(["Z1", "Z2", "Z3"])
+    assert_equal true, @board.same_plane?(["A1", "A2", "A3"])
+    assert_equal false, @board.same_plane?(["A1", "A2", "B2"])
+    assert_equal false, @board.same_plane?(["A1", "B1", "B2"])
+  end
+
 end
