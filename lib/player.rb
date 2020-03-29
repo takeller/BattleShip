@@ -1,9 +1,9 @@
 class Player
 
-  attr_reader :board, :name, :ships
+  attr_reader :board, :human, :ships
 
-  def initialize(name)
-    @name = name
+  def initialize(human = false)
+    @human = human
     @board = Board.new
     @ships = {
               cruiser: Ship.new("Cruiser", 3),
@@ -11,8 +11,12 @@ class Player
               }
   end
 
+  def is_human?
+    @human
+  end
+
   def has_lost?
-    ships.values.map { |ship| ship.sunk? }.all?
+    @ships.values.map { |ship| ship.sunk? }.all?
   end
 
   def computer_ship_coordinates(ship)
@@ -24,4 +28,9 @@ class Player
     placement_coordinates
   end
 
+  def place_ship_prompt
+    p "I have laid out my ships on the grid.\n
+    You now need to lay out your two ships. \n
+    The Cruiser is three units long and the Submarine is two units long."
+  end
 end

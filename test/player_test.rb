@@ -9,7 +9,8 @@ require 'pry'
 
 class PlayerTest < Minitest::Test
   def setup
-    @kyle = Player.new("Kyle")
+    @kyle = Player.new(true)
+    @computer = Player.new
   end
   def test_it_exists
     assert_instance_of Player, @kyle
@@ -21,8 +22,13 @@ class PlayerTest < Minitest::Test
                 "C1","C2","C3","C4",
                 "D1","D2","D3","D4"]
     assert_equal expected, @kyle.board.cells.keys
-    assert_equal "Kyle", @kyle.name
+    assert_equal true, @kyle.human
     assert_equal "Submarine", @kyle.ships[:submarine].name
+  end
+
+  def test_it_can_tell_if_player_is_human
+    assert_equal true, @kyle.is_human?
+    assert_equal false, @computer.is_human?
   end
 
   def test_it_can_tell_if_all_ships_have_sunk
@@ -35,12 +41,12 @@ class PlayerTest < Minitest::Test
   end
 
   def test_it_can_generate_computer_ship_placements
-    @kyle.computer_ship_coordinates(@kyle.ships[:cruiser])
-    p @kyle.ships[:cruiser]
+    @computer.computer_ship_coordinates(@computer.ships[:cruiser])
+    p @computer.ships[:cruiser]
 
-    assert_equal 3, @kyle.ships[:cruiser].length
-    assert_equal true, @kyle.board.valid_placement?(@kyle.ships[:cruiser],
-                       @kyle.computer_ship_coordinates(@kyle.ships[:cruiser]))
+    assert_equal 3, @computer.ships[:cruiser].length
+    assert_equal true, @computer.board.valid_placement?(@computer.ships[:cruiser],
+                       @computer.computer_ship_coordinates(@computer.ships[:cruiser]))
   end
 
 end
