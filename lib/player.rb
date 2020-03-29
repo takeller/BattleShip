@@ -9,7 +9,7 @@ class Player
   end
 
   def all_ships_sunk?
-    return true if ships.all? { |ship| ship.health == 0  }
+    return true if ships.all? { |ship| ship.sunk?  }
   end
 
 end
