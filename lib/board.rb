@@ -61,7 +61,8 @@ class Board
     true
   end
 
-
+  # Review this and consecutive_coordinates. I feel like the logic may be slightly
+  # off. Maybe check that both ordinal differences = 1
   def diagonal_coordinates?(coordinates)
     check_diagonal_ords = []
 

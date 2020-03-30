@@ -36,6 +36,9 @@ class PlayerTest < Minitest::Test
     assert_equal false, @kyle.has_lost?
 
     2.times {@kyle.ships[:submarine].hit}
+
+    assert_equal false, @kyle.has_lost?
+
     3.times {@kyle.ships[:cruiser].hit}
 
     assert_equal true, @kyle.has_lost?
