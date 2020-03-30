@@ -39,18 +39,29 @@ class Player
     coordinates.split(" ")
   end
 
-  def print_prompt
+  def starting_prompt
     prompt =  "I have laid out my ships on the grid.
     You now need to lay out your two ships.
     The #{@ships.values[0].name} is #{@ships.values[0].length} units long and the #{@ships.values[1].name} is #{@ships.values[1].length} units long."
   end
 
-  # def player_place_ships
-  #   print_prompt
-  # end
-  #
-  #
-  # def player_place_ships
-  #
-  # end
+  def check_valid_coordinates(ship) #needs better testing
+    coordinates = get_player_coordinates
+    until board.valid_placement?(ship, coordinates)
+      puts "Those are invalid coordinates. Please try again:"
+      coordinates = get_player_coordinates
+    end
+    coordinates
+  end
+
+  def player_place_ships #needs better testing
+    puts starting_prompt
+    puts @board.render(true)
+    @ships.values.each do |ship|
+      puts "enter the squares for the #{ship.name} (#{ship.length} spaces:)"
+      coordinates = check_valid_coordinates(ship)
+      @board.place(ship, coordinates)
+      puts @board.render(true)
+    end
+  end
 end
