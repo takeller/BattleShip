@@ -22,6 +22,7 @@ class PlayerTest < Minitest::Test
                 "C1","C2","C3","C4",
                 "D1","D2","D3","D4"]
     assert_equal expected, @kyle.board.cells.keys
+    assert_instance_of Board, @kyle.board
     assert_equal true, @kyle.human
     assert_equal "Submarine", @kyle.ships[:submarine].name
   end

@@ -5,10 +5,11 @@ class Player
   def initialize(human = false)
     @human = human
     @board = Board.new
-    @ships = {
-              cruiser: Ship.new("Cruiser", 3),
-              submarine: Ship.new("Submarine", 2)
-              }
+    @ships =
+    {
+    cruiser: Ship.new("Cruiser", 3),
+    submarine: Ship.new("Submarine", 2)
+    }
   end
 
   def is_human?
