@@ -49,9 +49,9 @@ class GameSetup
 
   def display_boards
     puts "=============PLAYER BOARD============="
-    puts human_player.board.render(true)
+    puts @player.board.render(true)
     puts "=============COMPUTER BOARD============="
-    puts computer_player.board.render
+    puts @computer.board.render
   end
 
   def valid_shot?(board,coordinate)
@@ -64,8 +64,8 @@ class GameSetup
     # Check if shot is on the board
     # Check if this position has already been fired upon
     # I think I need to pass the shot_coordinate to the cell
-    until valid_shot?(computer_player.board, shot_coordinate)
-      if computer_player.board.cell.fired_upon?(shot_coordinate) == true
+    until valid_shot?(@computer.board, shot_coordinate)
+      if @computer.board.cell.fired_upon?(shot_coordinate) == true
         puts "You have already fired on this coordinate:"
         shot_coordinate = gets.chomp
       else
@@ -78,31 +78,31 @@ class GameSetup
 
   # Fires on random spot on the board that has not already been fired_upon
   def get_computer_shot
-    shot_coordinate = human_player.board.cells.keys.shuffle
-    until valid_shot?(human_player.board, shot_coordinate)
-      shot_coordinate = human_player.board.cells.keys.shuffle
+    shot_coordinate = @player.board.cells.keys.shuffle
+    until valid_shot?(@player.board, shot_coordinate)
+      shot_coordinate = @player.board.cells.keys.shuffle
     end
   end
 
   def register_shots(shot_coordinates)
-    computer_player.board.cells[shot_coordinates[:player]].fire_upon
-    human_player.board.cells[shot_coordinates[:computer]].fire_upon
+    @computer.board.cells[shot_coordinates[:player]].fire_upon
+    @player.board.cells[shot_coordinates[:computer]].fire_upon
   end
 
   def shot_results(shot_coordinates)
     results = {}
-    if computer_player.board.cells[shot_coordinates[:player]].empty?
+    if @computer.board.cells[shot_coordinates[:player]].empty?
       results[:player] = "miss"
-    elsif computer_player.board.cells[shot_coordinates[:player]].ship.sunk? 
-      results[:player] = "hit, and sunk their #{computer_player.board.cells[shot_coordinates[:player]].ship}"
+    elsif @computer.board.cells[shot_coordinates[:player]].ship.sunk?
+      results[:player] = "hit, and sunk their #{@computer.board.cells[shot_coordinates[:player]].ship}"
     else
       results[:player] = "hit"
     end
 
-    if human_player.board.cells[shot_coordinates[:computer]].empty?
+    if @player.board.cells[shot_coordinates[:computer]].empty?
       results[:computer] = "miss"
-    elsif human_player.board.cells[shot_coordinates[:computer]].ship.sunk?
-      results[:computer] = "hit, and sunk their #{human_player.board.cells[shot_coordinates[:computer]].ship}"
+    elsif @player.board.cells[shot_coordinates[:computer]].ship.sunk?
+      results[:computer] = "hit, and sunk their #{@player.board.cells[shot_coordinates[:computer]].ship}"
     else
       results[:computer] = "hit"
     end

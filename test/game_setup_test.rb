@@ -41,14 +41,14 @@ class GameSetupTest < Minitest::Test
    end
 
    def test_register_shots
-     assert_equal false, @game_setup.human_player.board.cells["A1"].fired_upon?
-     assert_equal false, @game_setup.computer_player.board.cells["D4"].fired_upon?
+     assert_equal false, @game_setup.player.board.cells["A1"].fired_upon?
+     assert_equal false, @game_setup.computer.board.cells["D4"].fired_upon?
 
-     @game_setup.human_player.board.cells["A1"].fire_upon
-     @game_setup.computer_player.board.cells["D4"].fire_upon
+     @game_setup.player.board.cells["A1"].fire_upon
+     @game_setup.computer.board.cells["D4"].fire_upon
 
-     assert_equal true, @game_setup.human_player.board.cells["A1"].fired_upon?
-     assert_equal true, @game_setup.computer_player.board.cells["D4"].fired_upon?
+     assert_equal true, @game_setup.player.board.cells["A1"].fired_upon?
+     assert_equal true, @game_setup.computer.board.cells["D4"].fired_upon?
    end
 
    def test_shot_results
