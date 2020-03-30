@@ -33,4 +33,24 @@ class Player
       @board.place(ship, computer_ship_coordinates(ship))
     end
   end
+
+  def get_player_coordinates
+    coordinates = gets.chomp
+    coordinates.split(" ")
+  end
+
+  def print_prompt
+    prompt =  "I have laid out my ships on the grid.
+    You now need to lay out your two ships.
+    The #{@ships.values[0].name} is #{@ships.values[0].length} units long and the #{@ships.values[1].name} is #{@ships.values[1].length} units long."
+  end
+
+  # def player_place_ships
+  #   print_prompt
+  # end
+  #
+  #
+  # def player_place_ships
+  #
+  # end
 end

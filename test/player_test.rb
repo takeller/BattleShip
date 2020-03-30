@@ -65,4 +65,10 @@ class PlayerTest < Minitest::Test
     assert_equal false, all_cells_ship_status.all?
   end
 
+  def test_it_gets_the_place_ships_prompt
+    expected = "I have laid out my ships on the grid.
+    You now need to lay out your two ships.
+    The Cruiser is 3 units long and the Submarine is 2 units long."
+    assert_equal expected, @kyle.print_prompt
+  end
 end
