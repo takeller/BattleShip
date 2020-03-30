@@ -27,14 +27,10 @@ class GameSetup
     # Loop turns until end condition met
   end
 
-  # Setup framework
-  def setup
-    # Make ships as part of player class
-    # Make initial boards in player class
-    # Make players in initialize
-    # Computer ship placement
-    # Player ship placement
-    # Return players with ships placed
+  def setup #need better testing
+    start_game
+    @computer.computer_place_ships
+    @player.player_place_ships
   end
 
   # Turn framework
