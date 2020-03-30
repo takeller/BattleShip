@@ -28,9 +28,9 @@ class Player
     placement_coordinates
   end
 
-  def place_ship_prompt
-    p "I have laid out my ships on the grid.\n
-    You now need to lay out your two ships. \n
-    The Cruiser is three units long and the Submarine is two units long."
+  def computer_place_ships
+    @ships.values.each do |ship|
+      @board.place(ship, computer_ship_coordinates(ship))
+    end
   end
 end

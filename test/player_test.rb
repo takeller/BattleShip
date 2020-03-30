@@ -42,11 +42,27 @@ class PlayerTest < Minitest::Test
 
   def test_it_can_generate_computer_ship_placements
     @computer.computer_ship_coordinates(@computer.ships[:cruiser])
-    p @computer.ships[:cruiser]
 
     assert_equal 3, @computer.ships[:cruiser].length
     assert_equal true, @computer.board.valid_placement?(@computer.ships[:cruiser],
                        @computer.computer_ship_coordinates(@computer.ships[:cruiser]))
+  end
+
+  def test_computer_can_place_ships
+    all_cells_ship_status =
+    @computer.board.cells.values.map do |cell|
+      cell.empty?
+    end
+
+    assert_equal true, all_cells_ship_status.all?
+
+    @computer.computer_place_ships
+    all_cells_ship_status =
+    @computer.board.cells.values.map do |cell|
+      cell.empty?
+    end
+
+    assert_equal false, all_cells_ship_status.all?
   end
 
 end
