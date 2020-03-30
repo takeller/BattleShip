@@ -1,13 +1,26 @@
 class GameSetup
-  attr_reader :player, :computer
 
-  def initialize
+  def make_players
     @player = Player.new(true)
     @computer = Player.new
   end
 
-  def players
-    [@player, @computer]
+  # def players
+  #   [@player, @computer]
+  # end
+
+  def run_game
+    make_players
+    setup
+
+    until @player.has_lost? || @computer.has_lost?
+      turn
+    end
+
+    p "You lost to the computer" if @player.has_lost?
+    p "YOU WON!!!!" if @computer.has_lost?
+
+    run_game
   end
 
   def main_menu
@@ -44,7 +57,7 @@ class GameSetup
     # Report computer shot
     register_shots(shot_coordinates)
     # Print result of shots
-    report_shot_results
+    report_shot_results(shot_coordinates)
   end
 
   def display_boards
@@ -54,8 +67,8 @@ class GameSetup
     puts @computer.board.render
   end
 
-  def valid_shot?(board,coordinate)
-    board.valid_coordinate?(coordinate) && board.cells(coordinate).fired_upon? == false
+  def valid_shot?(player,coordinate)
+    player.board.valid_coordinate?(coordinate) && player.board.cells[coordinate].fired_upon? == false
   end
 
   def get_player_shot
@@ -64,12 +77,12 @@ class GameSetup
     # Check if shot is on the board
     # Check if this position has already been fired upon
     # I think I need to pass the shot_coordinate to the cell
-    until valid_shot?(@computer.board, shot_coordinate)
-      if @computer.board.cell.fired_upon?(shot_coordinate) == true
-        puts "You have already fired on this coordinate:"
-        shot_coordinate = gets.chomp
-      else
+    until valid_shot?(@computer, shot_coordinate)
+      if @computer.board.valid_coordinate?(shot_coordinate) == false
         puts "Please enter a valid coordinate:"
+        shot_coordinate = gets.chomp
+      elsif @computer.board.cells[shot_coordinate].fired_upon? == true
+        puts "You have already fired on this coordinate:"
         shot_coordinate = gets.chomp
       end
     end
@@ -78,10 +91,13 @@ class GameSetup
 
   # Fires on random spot on the board that has not already been fired_upon
   def get_computer_shot
-    shot_coordinate = @player.board.cells.keys.shuffle
-    until valid_shot?(@player.board, shot_coordinate)
-      shot_coordinate = @player.board.cells.keys.shuffle
+    shot_coordinate = @player.board.cells.keys.shuffle[0]
+    # require 'pry'; binding.pry
+    until valid_shot?(@player, shot_coordinate)
+      # require 'pry'; binding.pry
+      shot_coordinate = @player.board.cells.keys.shuffle[0]
     end
+    shot_coordinate
   end
 
   def register_shots(shot_coordinates)
@@ -94,7 +110,7 @@ class GameSetup
     if @computer.board.cells[shot_coordinates[:player]].empty?
       results[:player] = "miss"
     elsif @computer.board.cells[shot_coordinates[:player]].ship.sunk?
-      results[:player] = "hit, and sunk their #{@computer.board.cells[shot_coordinates[:player]].ship}"
+      results[:player] = "hit, and sunk their #{@computer.board.cells[shot_coordinates[:player]].ship.name}"
     else
       results[:player] = "hit"
     end
@@ -102,16 +118,16 @@ class GameSetup
     if @player.board.cells[shot_coordinates[:computer]].empty?
       results[:computer] = "miss"
     elsif @player.board.cells[shot_coordinates[:computer]].ship.sunk?
-      results[:computer] = "hit, and sunk their #{@player.board.cells[shot_coordinates[:computer]].ship}"
+      results[:computer] = "hit, and sunk our #{@player.board.cells[shot_coordinates[:computer]].ship.name}"
     else
       results[:computer] = "hit"
     end
     results
   end
 
-  def report_shot_results
-    puts "Computer shot on #{shot_coordinate} was a #{shot_results[:computer]}."
-    puts "My shot on #{shot_coordinate} was a #{shot_results[:player]}."
+  def report_shot_results(shot_coordinates)
+    puts "Computer shot on #{shot_coordinates[:computer]} was a #{shot_results(shot_coordinates)[:computer]}."
+    puts "My shot on #{shot_coordinates[:player]} was a #{shot_results(shot_coordinates)[:player]}."
   end
 
 end
