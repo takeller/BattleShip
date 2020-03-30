@@ -4,6 +4,7 @@ require './lib/ship'
 require './lib/cell'
 require './lib/board'
 require './lib/game_setup'
+require './lib/player'
 require 'pry'
 
 class GameSetupTest < Minitest::Test
@@ -15,8 +16,11 @@ class GameSetupTest < Minitest::Test
      assert_instance_of GameSetup, @game_setup
    end
 
-   def test_start_game
-     @game_setup.start_game
+   def test_it_has_readable_attributes
+     assert_instance_of Player, @game_setup.player
+     assert_instance_of Player, @game_setup.computer
+     assert_equal true, @game_setup.player.is_human?
+     assert_equal false, @game_setup.computer.is_human?
    end
 
    def test_valid_shot?
@@ -49,6 +53,6 @@ class GameSetupTest < Minitest::Test
 
    def test_shot_results
      # Player
-     
+
    end
  end
