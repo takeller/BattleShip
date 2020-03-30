@@ -1,4 +1,14 @@
-cd B  class GameSetup
+class GameSetup
+  attr_reader :player, :computer
+
+  def initialize
+    @player = Player.new(true)
+    @computer = Player.new
+  end
+
+  def players
+    [@player, @computer]
+  end
 
   def main_menu
     p "Welcome to BATTLESHIP"
@@ -17,41 +27,12 @@ cd B  class GameSetup
     # Loop turns until end condition met
   end
 
-  # Where do these instance variables come from?
-  def computer_ship_placement(ship)
-    coordinate_indexes = ship.length - 1
-    placement_coordinates = []
-    until @computer_board.valid_placement?(ship, placement_coordinates)
-      placement_coordinates = @computer_board.cells.keys.shuffle[0..coordinate_indexes]
-    end
-    placement_coordinates
+  def setup #need better testing
+    start_game
+    @computer.computer_place_ships
+    @player.player_place_ships
   end
 
-  # Setup framework
-  def setup
-    # Make ships
-    # Make initial boards
-    # Make players
-    # Computer ship placement
-    # Player ship placement
-    # Return players with ships placed
-  end
-
-  def make_ships
-
-  end
-
-  def make_boards
-
-  end
-
-  def make_players
-
-  end
-
-  def player_ship_placement
-
-  end
   # Turn framework
   def turn
     # Display Boards
