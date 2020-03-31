@@ -35,9 +35,12 @@ class Player
     end
   end
 
-  def get_player_coordinates
+  def user_input
     coordinates = gets.chomp
-    coordinates.split(" ")
+    # coordinates.split(" ")
+  end
+  def player_get_coordinates
+    user_input.split(" ")
   end
 
   def starting_prompt
@@ -47,10 +50,10 @@ class Player
   end
 
   def check_valid_coordinates(ship) #needs better testing
-    coordinates = get_player_coordinates
+    coordinates = player_get_coordinates
     until board.valid_placement?(ship, coordinates)
       puts "Those are invalid coordinates. Please try again:"
-      coordinates = get_player_coordinates
+      coordinates = player_get_coordinates
     end
     coordinates
   end

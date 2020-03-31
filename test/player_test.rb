@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'mocha/minitest'
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
@@ -36,9 +37,6 @@ class PlayerTest < Minitest::Test
     assert_equal false, @kyle.has_lost?
 
     2.times {@kyle.ships[:submarine].hit}
-
-    assert_equal false, @kyle.has_lost?
-
     3.times {@kyle.ships[:cruiser].hit}
 
     assert_equal true, @kyle.has_lost?
@@ -76,7 +74,17 @@ class PlayerTest < Minitest::Test
     assert_equal expected, @kyle.starting_prompt
   end
 
-  def test_player_can_place_ships
-    @kyle.player_place_ships
+  def test_player_input_is_turned_to_an_array
+    @kyle.stubs(:user_input).returns ("A1 A2 A3")
+
+    assert_equal ["A1", "A2", "A3"], @kyle.player_get_coordinates
+  end
+
+  def test_check_valid_coordinates_passes_valid_coordinates_to_placement
+    @kyle.stubs(:user_input).returns ("A1 A2 A3")
+    cruiser = @kyle.ships[:cruiser]
+
+    assert_equal ["A1", "A2", "A3"], @kyle.check_valid_coordinates(cruiser)
+    
   end
 end
