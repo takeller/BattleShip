@@ -1,10 +1,5 @@
 class GameSetup
-<<<<<<< HEAD
 attr_reader :player, :computer
-=======
-
-  attr_reader :player, :computer 
->>>>>>> master
   def make_players
     @player = Player.new(true)
     @computer = Player.new
