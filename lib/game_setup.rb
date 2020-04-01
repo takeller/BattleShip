@@ -78,10 +78,36 @@ attr_reader :player, :computer
     shot_coordinate
   end
 
+  def get_cells_with_hits
+    hits = @player.board.cells.values.select do |cell|
+      cell.render == "H"
+    end
+    hits.map{|cell| cell.coordinate}
+  end
+
+  def is_adjacent?(pair)
+    letter_ord_difference = (pair[1][0].ord - pair[0][0].ord).abs
+    number_ord_difference = (pair[1][1].ord - pair[0][1].ord).abs
+    total_difference = letter_ord_difference + number_ord_difference
+    return true if total_difference == 1
+    false
+  end
+
+  def method_name
+
+  end
+
   def get_computer_shot
+    hit_cells = get_cells_with_hits
     shot_coordinate = @player.board.cells.keys.shuffle[0]
-    until valid_shot?(@player, shot_coordinate)
-      shot_coordinate = @player.board.cells.keys.shuffle[0]
+    if hit_cells.length != 0
+      until is_adjacent?([hit_cells.shuffle[0],shot_coordinate]) && valid_shot?(@player, shot_coordinate)
+        shot_coordinate = @player.board.cells.keys.shuffle[0]
+      end
+    else
+      until valid_shot?(@player, shot_coordinate)
+        shot_coordinate = @player.board.cells.keys.shuffle[0]
+      end
     end
     shot_coordinate
   end

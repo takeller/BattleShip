@@ -34,6 +34,30 @@ class GameSetupTest < Minitest::Test
     assert_equal true, @game_setup.valid_shot?(@game_setup.player , @game_setup.get_computer_shot)
   end
 
+  def test_it_can_get_cells_with_hits
+    assert_equal [], @game_setup.get_cells_with_hits
+
+    cruiser = @game_setup.player.ships[:cruiser]
+    submarine = @game_setup.player.ships[:submarine]
+    @game_setup.stubs(:user_input).returns("A1 A2 A3").then.returns("B1 C1")
+    @game_setup.player_place_ships
+    @game_setup.player.board.cells["A1"].fire_upon
+    @game_setup.player.board.cells["B1"].fire_upon
+    assert_equal ["A1", "B1"], @game_setup.get_cells_with_hits
+
+    @game_setup.player.board.cells["C1"].fire_upon
+    assert_equal ["A1"], @game_setup.get_cells_with_hits
+  end
+
+  def test_it_can_tell_adjacent_coordinates
+    assert_equal true, @game_setup.is_adjacent?(["A1", "A2"])
+    assert_equal true, @game_setup.is_adjacent?(["A2", "A1"])
+    assert_equal true, @game_setup.is_adjacent?(["C2", "B2"])
+    assert_equal true, @game_setup.is_adjacent?(["B4", "C4"])
+    assert_equal false, @game_setup.is_adjacent?(["A4", "C4"])
+    assert_equal false, @game_setup.is_adjacent?(["A2", "A4"])
+  end
+
   def test_get_computer_shot
      assert_equal true, @game_setup.valid_shot?(@game_setup.player , @game_setup.get_computer_shot)
   end
