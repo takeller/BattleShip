@@ -3,11 +3,8 @@ attr_reader :player, :computer
   def make_players
     @player = Player.new(true)
     @computer = Player.new
+    [@player, @computer]
   end
-
-  # def players
-  #   [@player, @computer]
-  # end
 
   def run_game
     make_players
@@ -20,9 +17,9 @@ attr_reader :player, :computer
     if @player.has_lost? && @computer.has_lost?
       p "Tie Game"
     elsif @player.has_lost?
-      "You lost to the computer"
+      p "You lost to the computer"
     elsif @computer.has_lost?
-      "YOU WON!!!!"
+      p "YOU WON!!!!"
     end
 
     run_game
@@ -41,27 +38,20 @@ attr_reader :player, :computer
 
   def start_game
     exit! if main_menu == "q"
-    # Perform setup
-    # Loop turns until end condition met
   end
 
-  def setup #need better testing
+  def setup
     start_game
     computer_place_ships
     player_place_ships
   end
 
-  # Turn framework
   def turn
-    # Display Boards
     display_boards
-    # Player shot
-    # Computer shot
     shot_coordinates = {player: get_player_shot, computer: get_computer_shot}
-    # Report player shot
-    # Report computer shot
+    puts `clear`
+
     register_shots(shot_coordinates)
-    # Print result of shots
     report_shot_results(shot_coordinates)
   end
 
@@ -78,17 +68,17 @@ attr_reader :player, :computer
 
   def get_player_shot
     puts "Enter the coordinate for your shot:"
-    shot_coordinate = gets.chomp
+    shot_coordinate = user_input
     # Check if shot is on the board
     # Check if this position has already been fired upon
     # I think I need to pass the shot_coordinate to the cell
     until valid_shot?(@computer, shot_coordinate)
       if @computer.board.valid_coordinate?(shot_coordinate) == false
         puts "Please enter a valid coordinate:"
-        shot_coordinate = gets.chomp
+        shot_coordinate = user_input
       elsif @computer.board.cells[shot_coordinate].fired_upon? == true
         puts "You have already fired on this coordinate:"
-        shot_coordinate = gets.chomp
+        shot_coordinate = user_input
       end
     end
     shot_coordinate
