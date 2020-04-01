@@ -22,6 +22,21 @@ attr_reader :player, :computer
     run_game
   end
 
+  def make_ships
+    ships = Hash.new
+    more_ships = 'y'
+    until more_ships == 'n'
+      p "Please enter the name of the ship:"
+      ship_name = user_input
+      p "Please enter the length of the ship (maximum 4):"
+      ship_length = user_input
+      ships[ship_name.to_sym] = Ship.new(ship_name, ship_length)
+      p 'Would you like to make another ship? y/n:'
+      more_ships = user_input
+    end
+    ships
+  end
+
   def main_menu
     p "Welcome to BATTLESHIP"
     p  "Enter p to play. Enter q to quit"
@@ -93,9 +108,6 @@ attr_reader :player, :computer
     false
   end
 
-  def method_name
-
-  end
 
   def get_computer_shot
     hit_cells = get_cells_with_hits
