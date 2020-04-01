@@ -24,10 +24,6 @@ class GameSetupTest < Minitest::Test
     end
   end
 
-  def test_setup
-
-  end
-
   def test_valid_shot?
     assert_equal true, @game_setup.valid_shot?(@game_setup.player, "A1")
 
@@ -37,8 +33,7 @@ class GameSetupTest < Minitest::Test
     assert_equal false, @game_setup.valid_shot?(@game_setup.player, "E1")
     assert_equal true, @game_setup.valid_shot?(@game_setup.player , @game_setup.get_computer_shot)
   end
-  # feed list of known valid coordinates i.e. "A1" -> "D4" and test this
-  # coordinate is one of those.
+
   def test_get_computer_shot
      assert_equal true, @game_setup.valid_shot?(@game_setup.player , @game_setup.get_computer_shot)
   end

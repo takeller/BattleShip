@@ -9,11 +9,9 @@ attr_reader :player, :computer
   def run_game
     make_players
     setup
-
     until @player.has_lost? || @computer.has_lost?
       turn
     end
-
     if @player.has_lost? && @computer.has_lost?
       p "Tie Game"
     elsif @player.has_lost?
@@ -21,7 +19,6 @@ attr_reader :player, :computer
     elsif @computer.has_lost?
       p "YOU WON!!!!"
     end
-
     run_game
   end
 
@@ -69,9 +66,6 @@ attr_reader :player, :computer
   def get_player_shot
     puts "Enter the coordinate for your shot:"
     shot_coordinate = user_input
-    # Check if shot is on the board
-    # Check if this position has already been fired upon
-    # I think I need to pass the shot_coordinate to the cell
     until valid_shot?(@computer, shot_coordinate)
       if @computer.board.valid_coordinate?(shot_coordinate) == false
         puts "Please enter a valid coordinate:"
@@ -84,12 +78,9 @@ attr_reader :player, :computer
     shot_coordinate
   end
 
-  # Fires on random spot on the board that has not already been fired_upon
   def get_computer_shot
     shot_coordinate = @player.board.cells.keys.shuffle[0]
-    # require 'pry'; binding.pry
     until valid_shot?(@player, shot_coordinate)
-      # require 'pry'; binding.pry
       shot_coordinate = @player.board.cells.keys.shuffle[0]
     end
     shot_coordinate
@@ -154,7 +145,7 @@ attr_reader :player, :computer
     user_input.split(" ")
   end
 
-  def check_valid_coordinates(ship) #needs better testing
+  def check_valid_coordinates(ship)
     coordinates = player_get_coordinates
     until @player.board.valid_placement?(ship, coordinates)
       puts "Those are invalid coordinates. Please try again:"
