@@ -28,10 +28,10 @@ class PlayerTest < Minitest::Test
     assert_equal "Submarine", @kyle.ships[:submarine].name
   end
 
-  def test_it_can_tell_if_player_is_human
-    assert_equal true, @kyle.is_human?
-    assert_equal false, @computer.is_human?
-  end
+  # def test_it_can_tell_if_player_is_human
+  #   assert_equal true, @kyle.is_human?
+  #   assert_equal false, @computer.is_human?
+  # end
 
   def test_it_can_tell_player_has_lost
     assert_equal false, @kyle.has_lost?

@@ -12,9 +12,9 @@ class Player
     }
   end
 
-  def is_human?
-    @human
-  end
+  # def is_human?
+  #   @human
+  # end
 
   def has_lost?
     @ships.values.map { |ship| ship.sunk? }.all?
