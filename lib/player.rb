@@ -36,7 +36,7 @@ class Player
   end
 
   def user_input
-    coordinates = gets.chomp
+    input = gets.chomp
     # coordinates.split(" ")
   end
   def player_get_coordinates
