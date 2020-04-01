@@ -51,12 +51,6 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.consecutive_coordinates?(["B1","A1", "C1", "A1"])
   end
 
-  def test_diagonal_coordinates?
-    assert_equal false, @board.diagonal_coordinates?(["A1","A2","A3"])
-    assert_equal false, @board.diagonal_coordinates?(["A1","B1","C1"])
-    assert_equal true, @board.diagonal_coordinates?(["A1","B2","C3"])
-  end
-
   def test_valid_placement_ship_length
     assert_equal true, @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])

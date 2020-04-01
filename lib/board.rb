@@ -1,5 +1,4 @@
 class Board
-
   attr_reader :cells
   def initialize
     @cells = make_cells
@@ -19,9 +18,9 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    return false if (coordinates.length != ship.length) or (consecutive_coordinates?(coordinates) == false)
-    # Rename to diagonal_coordinates
-    return false if (diagonal_coordinates?(coordinates) == true)
+    return false if same_plane?(coordinates) == false
+    return false if coordinates.length != ship.length
+    return false if consecutive_coordinates?(coordinates) == false
     coordinates.each do |coordinate|
       return false if valid_coordinate?(coordinate) == false
     end
@@ -44,7 +43,6 @@ class Board
   end
 
   def consecutive_coordinates?(coordinates)
-    return false if same_plane?(coordinates) == false
     boolean_array = []
     coordinates.each_cons(2) do |pair|
       return false if pair[0] == pair[1]
@@ -61,23 +59,6 @@ class Board
     true
   end
 
-  # Review this and consecutive_coordinates. I feel like the logic may be slightly
-  # off. Maybe check that both ordinal differences = 1
-  def diagonal_coordinates?(coordinates)
-    check_diagonal_ords = []
-
-    coordinates.each_cons(2) do |pair|
-      letter_ord_difference = pair[1][0].ord - pair[0][0].ord
-      number_ord_difference = pair[1][1].ord - pair[0][1].ord
-      return false if letter_ord_difference > 1 or number_ord_difference > 1
-      check_diagonal_ords << letter_ord_difference + number_ord_difference
-    end
-
-    return true if check_diagonal_ords.any? { |ord_diff_total| ord_diff_total > 1}
-    false
-  end
-
-  # Generalize to make size flexible
   def make_grid
     letters = [*"A".."D"]
     numbers = [*"1".."4"]
@@ -90,7 +71,6 @@ class Board
     grid
   end
 
-  # Generalize to handle flexible size
   def render(show_ship = false)
     if show_ship == false
       size = 4
@@ -114,7 +94,6 @@ class Board
 
       rendered_board =  ("  1 2 3 4 \n"  + "A #{row2.join(" ")} \n" + "B #{row3.join(" ")} \n" + "C #{row4.join(" ")} \n" + "D #{row5.join(" ")} \n")
     end
-    # puts rendered_board
     rendered_board
   end
 

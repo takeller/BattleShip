@@ -29,14 +29,6 @@ class ShipTest < Minitest::Test
     assert_equal false, @cruiser.sunk?
   end
 
-  def test_it_sinks_when_health_equals_zero
-    assert_equal 3, @cruiser.health
-    3.times do
-      @cruiser.hit
-    end
-    assert_equal true, @cruiser.sunk?
-  end
-
   def test_hit
     assert_equal 3, @cruiser.health
 
@@ -49,4 +41,11 @@ class ShipTest < Minitest::Test
     assert_equal 1, @cruiser.health
   end
 
+  def test_it_sinks_when_health_equals_zero
+    assert_equal 3, @cruiser.health
+    3.times do
+      @cruiser.hit
+    end
+    assert_equal true, @cruiser.sunk?
+  end
 end
