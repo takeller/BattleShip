@@ -18,11 +18,22 @@ class GameSetupTest < Minitest::Test
      assert_instance_of GameSetup, @game_setup
    end
 
+<<<<<<< HEAD
    def test_it_has_readable_attributes
      assert_instance_of Player, @game_setup.player
      assert_instance_of Player, @game_setup.computer
      # assert_equal true, @game_setup.player.is_human?
      # assert_equal false, @game_setup.computer.is_human?
+=======
+   def test_make_players
+     @game_setup.make_players.each do |player|
+       assert_instance_of Player, player
+     end
+   end
+
+   def test_setup
+
+>>>>>>> master
    end
 
    # def test_valid_shot?
@@ -77,6 +88,7 @@ class GameSetupTest < Minitest::Test
      assert_nil @game_setup.computer.board.cells["D3"].ship
      assert_nil @game_setup.computer.board.cells["D4"].ship
 
+<<<<<<< HEAD
      @game_setup.stubs(:computer_ship_coordinates).returns(["B2", "C2", "D2"]).then.returns(["D3", "D4"])
      @game_setup.computer_place_ships
      cruiser = @game_setup.computer.ships[:cruiser]
@@ -93,6 +105,16 @@ class GameSetupTest < Minitest::Test
     You now need to lay out your two ships.
     The Cruiser is 3 units long and the Submarine is 2 units long."
      assert_equal expected, @game_setup.starting_prompt
+=======
+     assert_equal false, @game_setup.valid_shot?(@game_setup.player, "A1")
+     assert_equal false, @game_setup.valid_shot?(@game_setup.player, "E1")
+     assert_equal true, @game_setup.valid_shot?(@game_setup.player , @game_setup.get_computer_shot)
+   end
+   # feed list of known valid coordinates i.e. "A1" -> "D4" and test this
+   # coordinate is one of those.
+   def test_get_computer_shot
+      assert_equal true, @game_setup.valid_shot?(@game_setup.player , @game_setup.get_computer_shot)
+>>>>>>> master
    end
 
    def test_player_get_coordinates_turns_input_to_an_array
@@ -111,6 +133,7 @@ class GameSetupTest < Minitest::Test
      assert_equal ["B1", "C1"], @game_setup.check_valid_coordinates(submarine)
    end
 
+<<<<<<< HEAD
    def test_players_can_place_ships
      cruiser = @game_setup.player.ships[:cruiser]
      submarine = @game_setup.player.ships[:submarine]
@@ -123,6 +146,48 @@ class GameSetupTest < Minitest::Test
 
      @game_setup.stubs(:user_input).returns("A1 A2 A3").then.returns("B1 C1")
      @game_setup.player_place_ships
+=======
+   def test_shot_results
+     @game_setup.stubs(:get_player_shot).returns("A1")
+     @game_setup.stubs(:get_computer_shot).returns("A1")
+
+     shot_coordinates = {player: @game_setup.get_player_shot,
+                         computer: @game_setup.get_computer_shot}
+     @game_setup.register_shots(shot_coordinates)
+
+     assert_equal "miss", @game_setup.shot_results(shot_coordinates)[:player]
+     assert_equal "miss", @game_setup.shot_results(shot_coordinates)[:computer]
+
+     @game_setup.stubs(:get_player_shot).returns("A2")
+     @game_setup.stubs(:get_computer_shot).returns("A2")
+
+     shot_coordinates = {player: @game_setup.get_player_shot, computer: @game_setup.get_computer_shot}
+     @game_setup.computer.stubs(:computer_ship_coordinates).returns(["A2", "A3", "A4"])
+     @game_setup.player.stubs(:get_player_coordinates).returns("A2 A3 A4").then.returns("D1 D2")
+
+     @game_setup.computer.computer_place_ships
+     @game_setup.player.player_place_ships
+     @game_setup.register_shots(shot_coordinates)
+
+     assert_equal "hit", @game_setup.shot_results[:player]
+     assert_equal "hit", @game_setup.shot_results[:computer]
+
+     @game_setup.stubs(:get_player_shot).returns("A3")
+     @game_setup.stubs(:get_computer_shot).returns("A3")
+     shot_coordinates = { player: @game_setup.get_player_shot, computer: @game_setup.get_computer_shot}
+     @game_setup.register_shots(shot_coordinates)
+
+     assert_equal "hit", @game_setup.shot_results[:player]
+     assert_equal "hit", @game_setup.shot_results[:computer]
+
+     @game_setup.stubs(:get_player_shot).returns("A4")
+     @game_setup.stubs(:get_computer_shot).returns("A4")
+     shot_coordinates = { player: @game_setup.get_player_shot, computer: @game_setup.get_computer_shot}
+     @game_setup.register_shots(shot_coordinates)
+
+     assert_equal "hit, and sunk their Cruiser", @game_setup.shot_results[:player]
+     assert_equal "hit, and sunk their Cruiser", @game_setup.shot_results[:computer]
+>>>>>>> master
 
      assert_equal cruiser, @game_setup.player.board.cells["A1"].ship
      assert_equal cruiser, @game_setup.player.board.cells["A2"].ship

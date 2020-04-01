@@ -1,5 +1,10 @@
 class GameSetup
+<<<<<<< HEAD
 attr_reader :player, :computer
+=======
+
+  attr_reader :player, :computer 
+>>>>>>> master
   def make_players
     @player = Player.new(true)
     @computer = Player.new
@@ -17,8 +22,13 @@ attr_reader :player, :computer
       turn
     end
 
-    p "You lost to the computer" if @player.has_lost?
-    p "YOU WON!!!!" if @computer.has_lost?
+    if @player.has_lost? && @computer.has_lost?
+      p "Tie Game"
+    elsif @player.has_lost?
+      "You lost to the computer"
+    elsif @computer.has_lost?
+      "YOU WON!!!!"
+    end
 
     run_game
   end
